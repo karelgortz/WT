@@ -1,0 +1,56 @@
+<div class="modal fade" id="exerciseOverview" tabindex="-1" role="dialog" aria-labelledby="exerciseOverviewLabel" *ngIf="workoutExercises"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exerciseOverviewLabel">Exercise overview</h5>
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="actions d-flex justify-content-end align-items-center">
+          <button class="btn btn-sm btn-success m-2" (click)="showExerciseModal()">Add exercise</button>
+        </div>
+        <div *ngIf="workoutExercises.length > 0; else tableEmpty">
+          <table class="table table-striped">
+            <thead>
+            <th>Exercise</th>
+            <th>Sets</th>
+            <th>Reps</th>
+            <th>Weight</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let we of workoutExercises">
+              <td>{{we.exercise.name}}</td>
+              <td>{{we.sets}}</td>
+              <td>{{we.reps}}</td>
+              <td>{{we.weight}}</td>
+              <td>
+                <div class="actions row text-right">
+                  <button class="btn btn-warning btn-sm mx-1" (click)="exerciseModal.show(we, currentWorkout)">
+                    <i class="fa fa-pencil text-white"></i>
+                  </button>
+                  <button class="btn btn-danger btn-sm mx-1" (click)="deleteWorkoutExercise(we.id)">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #tableEmpty>
+          <div class="p-2">
+            <p>This workout doesn't contain any exercises yet, add some by clicking the 'add'-button.</p>
+          </div>
+        </ng-template>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<exercise-modal (exerciseSaved)="show($event)" (exerciseCancelled)="show($event)" #exerciseModal></exercise-modal>

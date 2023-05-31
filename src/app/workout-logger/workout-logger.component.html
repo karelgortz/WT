@@ -1,0 +1,67 @@
+<h2>Logger component</h2>
+<h3>My Workouts</h3>
+<div class="row">
+  <div class="col-md-12">
+    <ngx-datatable
+      #table
+      class="material"
+      [rows]="workouts"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [scrollbarH]="true"
+      [rowHeight]="50"
+      [limit]="10"
+      [columnMode]="'standard'"
+    >
+      <ngx-datatable-column
+        name="Name"
+        prop="name"
+        [flexGrow]="1"
+        [minWidth]="1"
+
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Date"
+        prop="date"
+        [flexGrow]="1"
+        [minWidth]="1"
+
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        [flexGrow]="1"
+        [sortable]="false"
+        [minWidth]="1"
+      >
+        <ng-template ngx-datatable-header-template>
+          <div class="text-right">
+            <button class="btn btn-sm btn-success" (click)="openWorkoutModal()">New Workout</button>
+          </div>
+        </ng-template>
+        <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
+          <div class="actions text-right  w-100">
+            <button class="btn btn-info btn-sm mx-1" (click)="showWorkoutExercises(row)">
+              <i class="fa fa-eye"></i>
+            </button>
+            <button class="btn btn-warning btn-sm mx-1" (click)="workoutModal.show(row)">
+              <i class="fa fa-pencil text-white"></i>
+            </button>
+            <button class="btn btn-danger btn-sm mx-1" (click)="deleteWorkout(row.id)">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<workout-modal (workoutSaved)="getWorkouts()" #workoutModal></workout-modal>
+<workout-exercise-overview #workoutExerciseOverview></workout-exercise-overview>

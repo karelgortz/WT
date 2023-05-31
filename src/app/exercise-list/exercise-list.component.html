@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-md-12">
+    <ngx-datatable
+      #table
+      class="material"
+      [rows]="exercises"
+      [headerHeight]="50"
+      [footerHeight]="70"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [columnMode]="'flex'"
+
+      [externalPaging]="true"
+      [count]="page.count"
+      [offset]="page.offset"
+      [limit]="page.limit"
+      (page)='handlePageChange($event)'
+    >
+      <ngx-datatable-column
+        name="Name"
+        prop="name"
+        [flexGrow]="2"
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ng-container *ngIf="screenWidth >= 550">
+        <ngx-datatable-column
+          name="Difficulty"
+          prop="difficulty"
+          [flexGrow]="2"
+        >
+
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+      </ng-container>
+      <ngx-datatable-column
+        name="Muscle"
+        prop="muscle"
+        [flexGrow]="2"
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ng-container *ngIf="screenWidth >= 450">
+      <ngx-datatable-column
+        name="Type"
+        prop="type"
+        [flexGrow]="2"
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      </ng-container>
+      <ngx-datatable-column
+        [flexGrow]="1"
+        [sortable]="false"
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <div class="actions d-flex justify-content-end align-items-center">
+            <button role="button" class="btn btn-info btn-sm"  (click)="showExerciseDetail(row)" [attr.aria-label]="'view ' + row.name + ' details'">
+              <i class="fa fa-eye text-white"></i>
+            </button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-selectedCount="selectedCount",
+          let-curPage="curPage"
+          let-offset="offset">
+          <div style="padding: 5px 10px" *ngIf="screenWidth >= 450">
+            <div>
+              Rows: {{rowCount}} |
+              Size: {{pageSize}} |
+              Current: {{curPage}}
+            </div>
+          </div>
+          <datatable-pager
+            [pagerLeftArrowIcon]="'datatable-icon-left'"
+            [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerPreviousIcon]="'datatable-icon-prev'"
+            [pagerNextIcon]="'datatable-icon-skip'"
+            [page]="curPage"
+            [size]="pageSize"
+            [count]="rowCount"
+            [hidden]="!((rowCount / pageSize) > 1)"
+            (change)="table.onFooterPage($event)">
+          </datatable-pager>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </div>
+</div>
+
+<exercise-list-detail #exerciseListDetail></exercise-list-detail>

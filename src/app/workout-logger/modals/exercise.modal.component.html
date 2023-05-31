@@ -1,0 +1,52 @@
+<div class="modal fade" id="newExercise" tabindex="-1" role="dialog" aria-labelledby="newExerciseLabel" *ngIf="currentWorkoutExercise"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newExerciseLabel">New exercise</h5>
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Exercise:</label>
+            <div class="col-sm-10">
+              <ng-select
+                [(ngModel)]="selectedExercise"
+                class="w-100"
+                [items]="exercises"
+                [bindLabel]="'name'"
+                [multiple]="false"
+                name="exercise">
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="weReps">Reps:</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="number" min="1" required [(ngModel)]="currentWorkoutExercise.reps" id="weReps" name="reps">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="weSets">Sets:</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="number" min="1" required [(ngModel)]="currentWorkoutExercise.sets" id="weSets" name="sets">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="weWeight">Weight:</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="number" min="1" required [(ngModel)]="currentWorkoutExercise.weight" id="weWeight" name="weight">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!form.valid || selectedExercise == null" (click)="form.ngSubmit.emit()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
