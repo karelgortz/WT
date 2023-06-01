@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="newWorkoutLabel">New Workout</h5>
-        <button type="button" class="close" (click)="close()" aria-label="Close">
+        <button type="button" class="close" (click)="cancel()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -25,7 +25,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Close</button>
         <button class="btn btn-primary" type="submit" [disabled]="!form.valid" (click)="form.ngSubmit.emit()">Save</button>
       </div>
     </div>

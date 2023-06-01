@@ -18,8 +18,9 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "@angular/service-worker": "^16.0.0",
     "@fortawesome/fontawesome-free": "^6.4.0",
-    "@ng-select/ng-select": "^10.0.4",
+    "@ng-select/ng-select": "^11.0.0",
     "@swimlane/ngx-datatable": "^20.1.0",
     "@types/bootstrap": "^5.2.6",
     "bootstrap": "^4.6.2",
@@ -29,6 +30,7 @@
     "popper.js": "^1.16.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "yarn": "^1.22.19",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

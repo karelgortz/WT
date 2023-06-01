@@ -30,6 +30,7 @@ export class ConverterService {
   public workoutExerciseConverter: any = {
     toFirestore: (workoutExercise: any) => {
       return {
+        id: workoutExercise.id,
         reps: workoutExercise.reps,
         sets: workoutExercise.sets,
         exercise: {

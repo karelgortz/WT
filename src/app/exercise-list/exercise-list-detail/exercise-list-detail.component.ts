@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ExerciseService} from "../../../services/exercise.service";
 import {Exercise} from "../../../models/exercise.model";
 declare var $:any;
@@ -9,7 +9,10 @@ declare var $:any;
 })
 export class ExerciseListDetailComponent implements OnInit{
   public exercise: Exercise = new Exercise();
+  public screenWidth: number;
+
   constructor(private exerciseService: ExerciseService) {
+    this.screenWidth = window.innerWidth;
   }
 
   ngOnInit(): void {
@@ -19,6 +22,11 @@ export class ExerciseListDetailComponent implements OnInit{
     console.log('etst')
     this.exercise = exercise;
     $('#exerciseDetail').modal('show')
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.screenWidth = window.innerWidth;
   }
 
 }

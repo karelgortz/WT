@@ -51,6 +51,16 @@ export class ExerciseService {
     return exercises;
   }
 
+  async searchExercises(): Promise<Array<Exercise>>{
+    let exercises: Exercise[] = [];
+    const q = query(collection(db, "Exercises").withConverter(this.converterService.exerciseConverter));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      exercises.push(doc.data());
+    });
+    return exercises;
+  }
+
   async getWorkouts(): Promise<Array<Workout>> {
     let workoutList: Workout[] = []
     const querySnapshot = await getDocs(collection(db, "Workouts").withConverter(this.converterService.workoutConverter));
@@ -85,6 +95,7 @@ export class ExerciseService {
   }
 
   async updateWorkoutExercise(workoutEx: WorkoutExercise): Promise<any> {
+    console.log(workoutEx)
     const ref = doc(db, "WorkoutExercises", `${workoutEx.id}`).withConverter(this.converterService.workoutExerciseConverter)
     return await setDoc(ref, workoutEx)
   }

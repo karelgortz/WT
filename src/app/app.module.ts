@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import {FormsModule} from "@angular/forms";
 import {WorkoutExerciseOverviewModalComponent} from "./workout-logger/modals/workout-exercise-overview.modal.component";
 import {ExerciseModalComponent} from "./workout-logger/modals/exercise.modal.component";
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -34,7 +35,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AppRoutingModule,
     NgxDatatableModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerImmediately'
+    }),
+
   ],
   providers: [ExerciseService],
   bootstrap: [AppComponent]

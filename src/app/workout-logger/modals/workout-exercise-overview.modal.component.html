@@ -19,6 +19,7 @@
             <th>Sets</th>
             <th>Reps</th>
             <th>Weight</th>
+            <th></th>
             </thead>
             <tbody>
             <tr *ngFor="let we of workoutExercises">
@@ -27,7 +28,7 @@
               <td>{{we.reps}}</td>
               <td>{{we.weight}}</td>
               <td>
-                <div class="actions row text-right">
+                <div class="actions text-right">
                   <button class="btn btn-warning btn-sm mx-1" (click)="exerciseModal.show(we, currentWorkout)">
                     <i class="fa fa-pencil text-white"></i>
                   </button>

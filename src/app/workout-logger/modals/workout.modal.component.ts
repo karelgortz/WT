@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Workout} from "../../../models/workout.model";
 import {NgForm} from '@angular/forms';
-import {ExerciseService} from "../../../services/exercise.service";
+import {ExerciseService} from "../../../services/exercise.service"
 
 declare var $:any;
 
@@ -14,6 +14,7 @@ export class WorkoutModalComponent implements  OnInit{
   public currentWorkout: Workout;
 
   @Output() workoutSaved: EventEmitter<any> = new EventEmitter<any>();
+  @Output() workoutCancelled: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('form') form: NgForm;
 
   constructor(private exerciseService: ExerciseService) {
@@ -28,6 +29,10 @@ export class WorkoutModalComponent implements  OnInit{
     $('#newWorkout').modal('show')
   }
 
+  cancel(){
+    this.workoutCancelled.emit();
+    this.close();
+  }
   close(){
     this.currentWorkout = new Workout();
     this.form.reset();

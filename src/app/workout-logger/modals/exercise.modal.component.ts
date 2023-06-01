@@ -5,19 +5,19 @@ import {ExerciseService} from "../../../services/exercise.service";
 import {Exercise} from "../../../models/exercise.model";
 import {WorkoutExercise} from "../../../models/workout-exercise.modal";
 
-declare var $:any;
+declare var $: any;
 
 
 @Component({
   selector: 'exercise-modal',
   templateUrl: './exercise.modal.component.html'
 })
-export class ExerciseModalComponent implements  OnInit{
+export class ExerciseModalComponent implements OnInit {
   public currentWorkoutExercise: WorkoutExercise;
   public currentWorkout: Workout;
   public exercises: Exercise[] = [];
   public selectedExercise: Exercise = null;
-z
+  z
   @Output() exerciseSaved: EventEmitter<any> = new EventEmitter<any>();
   @Output() exerciseCancelled: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('form') form: NgForm;
@@ -25,20 +25,21 @@ z
   constructor(private exerciseService: ExerciseService) {
 
   }
+
   ngOnInit(): void {
     this.currentWorkoutExercise = new WorkoutExercise()
   }
 
-  show(exercise: WorkoutExercise, workout: Workout){
+  show(exercise: WorkoutExercise, workout: Workout) {
+    console.log(exercise)
     this.currentWorkoutExercise = exercise;
     this.currentWorkout = workout;
     this.selectedExercise = exercise.exercise;
-    console.log(this.currentWorkout)
     this.getExercises();
     $('#newExercise').modal('show');
   }
 
-  close(){
+  close() {
     this.exerciseCancelled.emit(this.currentWorkout);
     this.currentWorkoutExercise = new WorkoutExercise();
     this.currentWorkout = new Workout();
@@ -51,24 +52,25 @@ z
     let newWorkoutExercise: WorkoutExercise = f.value;
     newWorkoutExercise.workoutId = this.currentWorkout.id;
     newWorkoutExercise.exercise = this.selectedExercise;
+    newWorkoutExercise.id = this.currentWorkoutExercise.id;
     console.log(newWorkoutExercise)
-    if (this.currentWorkoutExercise.id != null){
-      this.exerciseService.updateWorkoutExercise(newWorkoutExercise).then(result => {
+    if (this.currentWorkoutExercise.id == null) {
+      newWorkoutExercise.id = this.currentWorkoutExercise.id;
+      this.exerciseService.addWorkoutExercise(newWorkoutExercise).then(result => {
         this.exerciseSaved.emit(this.currentWorkout);
         this.close();
       })
     } else {
-      newWorkoutExercise.id = this.currentWorkoutExercise.id;
-      this.exerciseService.addWorkoutExercise(newWorkoutExercise).then(result => {
+      this.exerciseService.updateWorkoutExercise(newWorkoutExercise).then(result => {
         this.exerciseSaved.emit(this.currentWorkout);
         this.close();
       })
     }
   }
 
-  getExercises(){
-    /*this.exerciseService.getExercises().then(result => {
+  getExercises() {
+    this.exerciseService.searchExercises().then(result => {
       this.exercises = result;
-    })*/
+    })
   }
 }
