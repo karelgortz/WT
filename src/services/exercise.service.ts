@@ -20,6 +20,7 @@ import db from "../firebase/firebaseconfig";
 import {Workout} from "../models/workout.model";
 import {WorkoutExercise} from "../models/workout-exercise.modal";
 import {Page} from "../models/page.model";
+import {AppDB} from "../app/dexie/db";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ import {Page} from "../models/page.model";
 
 export class ExerciseService {
 
-  constructor(private converterService: ConverterService) {
+  constructor(private converterService: ConverterService, private dbService: AppDB) {
   }
 
   /*
@@ -61,6 +62,14 @@ export class ExerciseService {
     return exercises;
   }
 
+  getOfflineExercises(page: Page): Promise<Array<Exercise>>{
+    if (page.offset == 0){
+      return this.dbService.table("exercises").where("index").between(page.offset, page.limit).toArray();
+    } else {
+      return this.dbService.table("exercises").where("index").above(page.offset * 10).limit(page.limit).toArray();
+    }
+  }
+
   async getWorkouts(): Promise<Array<Workout>> {
     let workoutList: Workout[] = []
     const querySnapshot = await getDocs(collection(db, "Workouts").withConverter(this.converterService.workoutConverter));
@@ -81,6 +90,15 @@ export class ExerciseService {
 
   async deleteWorkoutExercise(workoutExId: string): Promise<any> {
     await deleteDoc(doc(db, "WorkoutExercises", workoutExId));
+  }
+
+  async getAllWorkoutExercises(): Promise<Array<WorkoutExercise>> {
+    let workoutExList: WorkoutExercise[] = []
+    const querySnapshot = await getDocs(collection(db, "WorkoutExercises").withConverter(this.converterService.workoutExerciseConverter));
+    querySnapshot.forEach((doc) => {
+      workoutExList.push(doc.data());
+    });
+    return workoutExList;
   }
 
   async getWorkoutExercises(workoutId: string): Promise<Array<WorkoutExercise>> {

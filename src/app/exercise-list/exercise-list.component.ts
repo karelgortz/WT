@@ -2,10 +2,9 @@ import {Component, OnInit, ViewChild, HostListener} from '@angular/core';
 import {ExerciseService} from "../../services/exercise.service";
 import {Exercise} from "../../models/exercise.model";
 import {ExerciseListDetailComponent} from "./exercise-list-detail/exercise-list-detail.component";
-import {WorkoutExercise} from "../../models/workout-exercise.modal";
 import {Page} from "../../models/page.model";
-import firebase from "firebase/compat";
-import DocumentReference = firebase.firestore.DocumentReference;
+import { AppDB } from '../dexie/db';
+
 
 @Component({
   selector: 'exercise-list',
@@ -18,21 +17,34 @@ export class ExerciseListComponent implements OnInit{
   public page: Page;
   @ViewChild("exerciseListDetail") exerciseListDetail?: ExerciseListDetailComponent;
 
-  constructor(private exerciseService: ExerciseService) {
+  constructor(private exerciseService: ExerciseService, private dbService: AppDB) {
     this.screenWidth = window.innerWidth;
   }
   ngOnInit(): void {
     this.page = new Page(159, 0, 10)
     this.getExercises();
-  }
-
-  getExercises(){
-    let exercises = [];
-    this.exerciseService.getExercises(this.page).then(result => {
-      this.exercises = result;
-      console.log(this.exercises)
+    this.exerciseService.searchExercises().then(result =>{
+      console.log(result)
+      this.dbService.table('exercises').bulkPut(result)
+        .then(data => console.log(data))
+        .catch(err => console.log(err.message));
     })
   }
+
+    getExercises(){
+      if (navigator.onLine){
+        console.log('online')
+        this.exerciseService.getExercises(this.page).then(result => {
+          this.exercises = result;
+        })
+        }else {
+          this.exerciseService.getOfflineExercises(this.page).then(result => {
+            console.log(result)
+            this.exercises = result;
+            console.log(result.values())
+          })
+      }
+    }
 
   showExerciseDetail(exercise: Exercise){
     console.log(exercise)

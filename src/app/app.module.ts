@@ -16,6 +16,8 @@ import {WorkoutExerciseOverviewModalComponent} from "./workout-logger/modals/wor
 import {ExerciseModalComponent} from "./workout-logger/modals/exercise.modal.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {CameraComponent} from "./camera/camera.component";
+import {PersonalTrainingComponent} from "./personal-training/personal-training.component";
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     WorkoutModalComponent,
     WorkoutExerciseOverviewModalComponent,
     ExerciseModalComponent,
+    CameraComponent,
+    PersonalTrainingComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +41,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     FormsModule,
     NgSelectModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
+      enabled: true,
       registrationStrategy: 'registerImmediately'
     }),
 

@@ -24,6 +24,7 @@
     "@swimlane/ngx-datatable": "^20.1.0",
     "@types/bootstrap": "^5.2.6",
     "bootstrap": "^4.6.2",
+    "dexie": "^3.2.4",
     "firebase": "^9.22.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.0",

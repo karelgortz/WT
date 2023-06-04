@@ -22,7 +22,7 @@ export class ConverterService {
     },
     fromFirestore: (snapshot: any, options: any) => {
       const data = snapshot.data(options);
-      return new Exercise(data.difficulty, data.equipment, data.instructions, data.muscle, data.name, data.type);
+      return new Exercise(data.difficulty, data.equipment, data.instructions, data.muscle, data.name, data.type, data.index);
     }
   };
 
